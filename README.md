@@ -1,5 +1,6 @@
 # Video Photo Music App Thing
 ---
+[![Coverage Status](https://coveralls.io/repos/github/The-Kids-Table/video-photo-music-app-thing/badge.svg?branch=master)](https://coveralls.io/github/The-Kids-Table/video-photo-music-app-thing?branch=master)
 [![Stories in Ready](https://badge.waffle.io/The-Kids-Table/video-photo-music-app-thing.png?label=ready&title=Ready)](http://waffle.io/The-Kids-Table/video-photo-music-app-thing)
 
 Multimedia Collaborative Content Sharing Platorm
