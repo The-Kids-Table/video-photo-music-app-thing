@@ -4,9 +4,19 @@ const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
-const config = require('config')['passport'];
 const User = require('../../db/models/user');
 const bCrypt = require('bcryptjs');
+
+let config = {
+  Google: {
+    clientID: process.env.GoogleClientID,
+    clientSecret: process.env.GoogleClientSecret,
+    callbackURL: process.env.GoogleCallbackURL
+  }
+};
+if (!(config.Google.clientID && config.Google.clientSecret && config.Google.callbackURL)) {
+  config = require('./oAuthConfig.json');
+}
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

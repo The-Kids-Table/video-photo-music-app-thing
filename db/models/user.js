@@ -1,5 +1,6 @@
 const db = require('../connection');
 const Sequelize = require('sequelize');
+const bCrypt = require('bcryptjs');
 const defaultTheme = 1;
 
 const UserModel = db.define('users', {
@@ -100,6 +101,12 @@ User.update = (userId, query) => {
     .then((user) => {
       if (user.oAuthUserId && (query.username || query.password)) {
         return Promise.reject('Cannot update username or password fields when signed in through oAuth provider');
+      }
+      if (query.password) {
+        let generateHash = (password) => {
+          return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
+        };
+        query.password = generateHash(query.password);
       }
       return user.update(query);
     });

@@ -22,21 +22,7 @@ module.exports = function(grunt) {
       commands: {
         exec: 'npm run-script test-client'
       }
-    },
-
-    pgcreatedb: {
-      default: {
-        connection: {
-          user: config.connection.user,
-          password: config.connection.password,
-          host: config.connection.host,
-          port: config.connection.port,
-          database: 'template1'
-        },
-        name: config.connection.database
-      }
     }
-
   });
 
   grunt.loadNpmTasks('grunt-mocha-test');

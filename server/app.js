@@ -20,7 +20,7 @@ app.use(middleware.passport.session());
 app.use('/', routes.auth);
 app.use('/api', routes.api);
 
-app.use('/graphql', expressGraphQL({schema: graphQLSchema, graphiql: true}));
+app.use('/graphql', expressGraphQL((request, response, graphQLParams) => ({schema: graphQLSchema, graphiql: true})));
 
 // Serve static files
 app.get('*/bundle.js', (req, res) => {

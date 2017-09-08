@@ -1,8 +1,7 @@
 # Project specific
-config/development.json
-config/production.json
-config/staging.json
-config/test.json
+db/config.json
+server/middleware/oAuthConfig.json
+
 
 # OS X
 .DS_Store
@@ -11,7 +10,6 @@ config/test.json
 logs
 package-lock.json
 *.log
-db/config.json
 
 # Runtime data
 pids

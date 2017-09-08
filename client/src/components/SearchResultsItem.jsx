@@ -5,7 +5,6 @@ import Card, { CardContent, CardMedia } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Icon from 'material-ui/Icon';
 
-
 const SearchResultsItem = ({ project }) => (
   <Grid container spacing={8}>
     <Grid item sm></Grid>
@@ -18,7 +17,7 @@ const SearchResultsItem = ({ project }) => (
         <CardContent>
           <Typography style={{textAlign: 'left'}}>
             <h2>{project.name}</h2>
-            <h5>Owner: {project.owner.name}</h5>
+            <h3>Owner: {project.owner.name}</h3>
           </Typography>
         </CardContent>
         <CardContent>
