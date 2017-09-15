@@ -13,7 +13,10 @@ const Upload = () => {
     borderColor: 'grey', 
     borderRadius: 10, 
     width: '100%', 
-    height: 200
+    height: 250, 
+    overflow: 'hidden',
+    maxWidth: '100%',
+    boxSizing: 'border-box'
   };
 
   let dropzoneFileTypes = [
