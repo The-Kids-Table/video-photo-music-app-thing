@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import './video.css';
 
-export default class VideoPlayer extends React.Component {
+class VideoPlayer extends Component {
   componentDidMount() {
     // instantiate video.js
     this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
@@ -29,3 +31,11 @@ export default class VideoPlayer extends React.Component {
     );
   }
 }
+
+VideoPlayer.propTypes = {
+  sources: PropTypes.array.isRequired,
+  fluid: PropTypes.bool.isRequired,
+  controls: PropTypes.bool.isRequired
+};
+
+export default VideoPlayer;

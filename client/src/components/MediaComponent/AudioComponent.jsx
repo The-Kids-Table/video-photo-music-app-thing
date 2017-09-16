@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
 import Paper from 'material-ui/Paper';
 import Card, { CardContent, CardMedia, CardHeader } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
@@ -16,7 +17,7 @@ import AudioPlayer from './AudioPlayer.jsx';
 const AudioComponent = ({component, elevation}) => (
   <Grid item xs={12}>
     <Paper elevation={elevation}>
-      <AudioPlayer height="90" aspectRatio="8:1" fluid="true" controls="true" sources={[{src: component.resourceUrl, type: 'audio/mp3'}]} />
+      <AudioPlayer aspectRatio="8:1" fluid={true} controls={true} sources={[{src: component.resourceUrl, type: 'audio/mp3'}]} />
       <Grid container justify="space-between" align="center">
         <Grid item>
           <CardHeader

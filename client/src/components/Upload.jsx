@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import { CircularProgress } from 'material-ui/Progress';
+
 import MediaIcon from './MediaIcon.jsx';
 
 const Upload = ({ allowedType, style }) => {
@@ -75,9 +77,9 @@ const Upload = ({ allowedType, style }) => {
   const fileComponent = (({ uploadedFile }) => {
     let type = 'text';                                                                      // Assume it's a text file, then:
 
-    if (uploadedFile.filename && uploadedFile.filename.match(/\.(mp4)/i)) {                 // Check if it's a video file...
+    if (uploadedFile.filename && uploadedFile.filename.match(/\.(mp4|m4v)/i)) {                 // Check if it's a video file...
       type = 'video';
-    } else if (uploadedFile.filename && uploadedFile.filename.match(/\.(mp3|wav|ogg)/i)) {  // ...or if it's an audio file.
+    } else if (uploadedFile.filename && uploadedFile.filename.match(/\.(mp3|wav|ogg|aac)/i)) {  // ...or if it's an audio file.
       type = 'audio';
     }
 
@@ -94,8 +96,7 @@ const Upload = ({ allowedType, style }) => {
   dropzoneFileTypes = dropzoneFileTypes.join(',');
 
   const handleFinishedUpload = info => {
-    console.log('file ' + info.filename + 'successfully uploaded!');
-    console.log('the file link is ' + info.fileUrl);
+    //URL=info.fileUrl
   };
 
 
