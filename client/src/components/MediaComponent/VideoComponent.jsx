@@ -15,6 +15,7 @@ import VideoPlayer from './VideoPlayer.jsx';
 const VideoComponent = ({component, group, elevation}) => {
   let size = 12;
   let headerSize = 0;
+  group = group || 1;
   
   if (group > 1) {
     size = 6;
@@ -58,8 +59,12 @@ const VideoComponent = ({component, group, elevation}) => {
 
 VideoComponent.propTypes = {
   component: PropTypes.object.isRequired,
-  group: PropTypes.number.isRequired,
+  group: PropTypes.number,
   elevation: PropTypes.number.isRequired
+};
+
+VideoComponent.defaultProps = {
+  group: 1,
 };
 
 export default VideoComponent;
