@@ -22,6 +22,9 @@ const config = {
         ]
       },
       {
+        test: /\.(eot|svg|ttf|woff|woff2)$/, loader: 'url-loader'
+      },
+      {
         test: /\.css$/, loader: 'style-loader!css-loader'
       },
       {
