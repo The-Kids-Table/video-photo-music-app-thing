@@ -75,7 +75,7 @@ const Upload = ({ allowedType, style }) => {
   const imageComponent = (({ uploadedFile }) => <img src={uploadedFile.fileUrl} style={{objectFit: 'cover', width: 'auto', height: '100%', align: 'center'}}/>);
   const progressComponent = (({progress}) => (progress ? (<div style={{margin: 50}}><CircularProgress size={150} mode="determinate" value={progress} min={0} max={100} /></div>) : null));
   const fileComponent = (({ uploadedFile }) => {
-    let type = 'text';                                                                      // Assume it's a text file, then:
+    let type = 'text';                                                                          // Assume it's a text file, then:
 
     if (uploadedFile.filename && uploadedFile.filename.match(/\.(mp4|m4v)/i)) {                 // Check if it's a video file...
       type = 'video';
