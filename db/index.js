@@ -1,10 +1,10 @@
-const Comment = require('./models/comment');
-const Contributor = require('./models/contributor');
-const Like = require('./models/like');
-const Project = require('./models/project');
-const ProjectComponent = require('./models/projectComponent');
-const Tag = require('./models/tag');
-const User = require('./models/user');
+const Comment = require('./elasticSearchControllers/comment');
+const Contributor = require('./elasticSearchControllers/contributor');
+const Like = require('./elasticSearchControllers/like');
+const Project = require('./elasticSearchControllers/project');
+const ProjectComponent = require('./elasticSearchControllers/projectComponent');
+const Tag = require('./elasticSearchControllers/tag');
+const User = require('./elasticSearchControllers/user');
 
 const connection = require('./connection');
 connection.clear = () => {

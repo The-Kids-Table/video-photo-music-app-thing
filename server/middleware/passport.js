@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
-const User = require('../../db/models/user');
+const { User } = require('../../db');
 const bCrypt = require('bcryptjs');
 
 let config = {
