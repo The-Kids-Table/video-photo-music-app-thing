@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { gql, graphql } from 'react-apollo';
 
@@ -17,7 +18,7 @@ const EditUserCard = ({ session, data: { user, loading, error } }) => (
 
   error &&
   <Paper style={{padding: 25}}>
-    <h2>User info not found</h2>
+    <Typography style={{fontSize: 20}}>User info not found</Typography>
   </Paper>
   ||
 
@@ -36,6 +37,10 @@ const EditUserCard = ({ session, data: { user, loading, error } }) => (
     </Button>
   </Paper>
 );
+
+EditUserCard.propTypes = {
+  username: PropTypes.string.isRequired,
+};
 
 const userQuery = gql`
   query userQuery($username: String!) {

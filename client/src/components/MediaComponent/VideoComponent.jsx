@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Card, { CardContent, CardMedia, CardHeader } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
@@ -11,7 +10,7 @@ import FavoriteIcon from 'material-ui-icons/Favorite';
 import ShareIcon from 'material-ui-icons/Share';
 import CommentIcon from 'material-ui-icons/Comment';
 
-import VideoPlayer from './video.jsx';
+import VideoPlayer from './VideoPlayer.jsx';
 
 const VideoComponent = ({component, group, elevation}) => {
   let size = 12;
@@ -55,6 +54,12 @@ const VideoComponent = ({component, group, elevation}) => {
       </Paper>
     </Grid>
   );
+};
+
+VideoComponent.propTypes = {
+  component: PropTypes.object.isRequired,
+  group: PropTypes.number.isRequired,
+  elevation: PropTypes.number.isRequired
 };
 
 export default VideoComponent;
