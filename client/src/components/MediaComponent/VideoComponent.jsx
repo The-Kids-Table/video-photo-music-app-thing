@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Card, { CardContent, CardMedia, CardHeader } from 'material-ui/Card';
@@ -25,7 +25,7 @@ const VideoComponent = ({component, group, elevation}) => {
   return (
     <Grid item xs={12} md={size}>
       <Paper elevation={elevation}>
-        <VideoPlayer fluid="true" controls="true" sources={[{src: component.resourceUrl}]} />
+        <VideoPlayer fluid={true} controls={true} sources={[{src: component.resourceUrl}]} />
         <Grid container spacing={0} justify="space-between" align="center">
           <Grid item xs={headerSize}>
             <CardHeader

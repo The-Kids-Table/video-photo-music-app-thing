@@ -27,18 +27,22 @@ const MediaIcon = ({ type, size }) => {
     };
   }
 
-  if (type === 'text') {
-    return (<TextFieldsIcon style={style} />);
+  return (
+    type === 'text' && 
+      <TextFieldsIcon style={style} />
+    ||
 
-  } else if (type === 'audio') {
-    return (<AudiotrackIcon style={style} />);
+    type === 'audio' &&
+      <AudiotrackIcon style={style} />
+    ||
 
-  } else if (type === 'image') {
-    return (<ImageIcon style={style} />);
+    type === 'image' &&
+      <ImageIcon style={style} />
+    ||
 
-  } else if (type === 'video') {
-    return (<TheatersIcon style={style} />);
-  }
+    type === 'video' &&
+      <TheatersIcon style={style} />
+  );
 };
 
 MediaIcon.propTypes = {
