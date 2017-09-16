@@ -20,8 +20,12 @@ class Settings extends Component {
     return (
       <div style={styles.wrapper}>
         <h2>Settings</h2>
-        <PasswordChanger style={styles.section} />
-        <ThemeChanger style={styles.section} />
+        <div style={styles.section}>
+          <PasswordChanger />
+        </div>
+        <div style={styles.section}>
+          <ThemeChanger />
+        </div>
       </div>
     );
   }

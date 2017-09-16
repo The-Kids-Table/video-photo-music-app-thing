@@ -232,7 +232,6 @@ const mutation = new GraphQLObjectType({
       args: {
         email: {type: GraphQLString},
         username: {type: GraphQLString},
-        password: {type: GraphQLString},
         theme: {type: GraphQLInt},
         name: {type: GraphQLString},
         profession: {type: GraphQLString},
@@ -245,6 +244,19 @@ const mutation = new GraphQLObjectType({
         }
         clearUndefinedVals(args);
         return db.User.update(request.user.id, args);
+      }
+    },
+    editUserPassword: {
+      type: GraphQLBoolean,
+      args: {
+        currentPassword: {type: new GraphQLNonNull(GraphQLString)},
+        newPassword: {type: new GraphQLNonNull(GraphQLString)},
+      },
+      resolve(parentValue, {currentPassword, newPassword}, request) {
+        if (!request.user) {
+          return Promise.reject('You are not logged in');
+        }
+        return db.User.updatePassword({userId: request.user.id, currentPassword, newPassword});
       }
     },
     followUser: {

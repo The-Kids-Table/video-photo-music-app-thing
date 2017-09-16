@@ -105,13 +105,27 @@ User.update = (userId, query) => {
   }
   return User.getById(userId)
     .then((user) => {
-      if (user.oAuthUserId && query.password) {
-        return Promise.reject('Cannot update password field when signed in through oAuth provider');
-      }
       if (query.password) {
-        query.password = generateHash(query.password);
+        return Promise.reject('Cannot update password field in update method - try the updatePassword method instead');
       }
       return user.update(query);
+    });
+};
+
+User.updatePassword = ({userId, currentPassword, newPassword}) => {
+  if (!(currentPassword && newPassword)) {
+    return Promise.reject('Must provide both current password and new password when changing password');
+  }
+  return User.getById(userId)
+    .then((user) => {
+      if (user.oAuthUserId) {
+        return Promise.reject('Cannot update password for oAuth user');
+      }
+      if (!bCrypt.compareSync(currentPassword, user.password)) {
+        return Promise.reject('Current password is incorrect');
+      }
+      password = generateHash(newPassword);
+      return user.update({password});
     });
 };
 

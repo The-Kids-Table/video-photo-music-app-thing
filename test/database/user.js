@@ -129,8 +129,8 @@ describe('User Model', () => {
     it('Should not allow changing of oAuthUserId and oAuthProvider fields if attempting to change local user', () => {
       return expect(User.update(localUser.id, {oAuthUserId: 1234})).to.be.rejectedWith('Cannot modify oAuth data');
     });
-    it('Should not allow changing of username and password fields if attempting to change oAuth user', () => {
-      return expect(User.update(oAuthUser.id, {password: 'foo'})).to.be.rejectedWith('Cannot update password field when signed in through oAuth provider');
+    it('Should not allow updating passwords', () => {
+      return expect(User.update(oAuthUser.id, {password: 'foo'})).to.be.rejectedWith('Cannot update password field in update method - try the updatePassword method instead');
     });
     it('Should reject when no update query is specified', () => {
       return expect(User.update(localUser.id)).to.rejectedWith('No update query was specified');
@@ -140,6 +140,58 @@ describe('User Model', () => {
     });
     it('Should reject when attempting to change oAuthProvider', () => {
       return expect(User.update(localUser.id, {oAuthProvider: 1234})).to.rejectedWith('Cannot modify oAuth data');
+    });
+  });
+
+  describe('updatePassword()', () => {
+    let localUser = {
+      username: 'test',
+      password: 'test',
+      name: 'test'
+    };
+    let oAuthUser = {
+      oAuthUserId: 1234,
+      oAuthProvider: 'facebook',
+      name: 'test'
+    };
+
+    beforeEach(() => {
+      return User.create(localUser)
+        .then((newUser) => {
+          localUser = newUser;
+          return User.create(oAuthUser);
+        })
+        .then((newUser) => {
+          oAuthUser = newUser;
+        });
+    });
+
+    it('Should succeed when updating password with all valid parameters', () => {
+      let userPassword;
+      return User.getById(localUser.id)
+        .then((user) => {
+          userPassword = user.password;
+        })
+        .then(() => {
+          return User.updatePassword({userId: localUser.id, currentPassword: 'test', newPassword: 'test2'})
+            .then((user) => {
+              expect(user.password).to.exist;
+              expect(userPassword).to.exist;
+              expect(user.password === userPassword).to.equal(false);
+            });
+        });
+    });
+    it('Should reject when user does not exist', () => {
+      return expect(User.updatePassword({userId: 1234, currentPassword: 'asdf', newPassword: 'asdf'})).to.be.rejectedWith('User does not exist');
+    });
+    it('Should reject when current password is incorrect', () => {
+      return expect(User.updatePassword({userId: localUser.id, currentPassword: 'fakepassword', newPassword: 'asdf'})).to.be.rejectedWith('Current password is incorrect');
+    });
+    it('Should reject when new password is empty', () => {
+      return expect(User.updatePassword({userId: localUser.id, currentPassword: 'test', newPassword: ''})).to.be.rejectedWith('Must provide both current password and new password when changing password');
+    });
+    it('Should not allow updating password for oAuth users', () => {
+      return expect(User.updatePassword({userId: oAuthUser.id, currentPassword: 'test', newPassword: 'test'})).to.be.rejectedWith('Cannot update password for oAuth user');
     });
   });
 
