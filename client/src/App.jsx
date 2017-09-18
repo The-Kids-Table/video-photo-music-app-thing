@@ -19,24 +19,23 @@ import logo from './logo.svg';
 import './App.css';
 
 const App = () => (
-  <ApolloProvider client={client} store={store}>
-    <MuiThemeProvider theme={themes.get(0)}>
-      <div className="App">
-        <Nav />
-        <Route exact path='/' component={Search}/>
-        <Route exact path='/search' component={Search}/>
-        <Route
-          exact
-          path='/project/:username/:projectName'
-          component={Project}
-        />
-        <Route exact path='/user/:username' component={User}/>
-        <Route exact path='/settings' component={Settings}/>
-        <Route exact path='/login' component={Login}/>
-        <Route exact path='/signup' component={Signup}/>
-      </div>
-    </MuiThemeProvider>
-  </ApolloProvider>
+  <MuiThemeProvider theme={themes.get(0)}>
+    <div className="App">
+      <Nav />
+      <Route exact path='/' component={Search}/>
+      <Route exact path='/search' component={Search}/>
+      <Route
+        exact
+        path='/project/:username/:projectName'
+        component={Project}
+      />
+      <Route exact path='/project/create' component={CreateProject}/>
+      <Route exact path='/user/:username' component={User}/>
+      <Route exact path='/settings' component={Settings}/>
+      <Route exact path='/login' component={Login}/>
+      <Route exact path='/signup' component={Signup}/>
+    </div>
+  </MuiThemeProvider>
 );
 
 export default App;

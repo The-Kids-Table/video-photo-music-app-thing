@@ -40,6 +40,12 @@ const UserType = new GraphQLObjectType({
       resolve(parentValue, args) {
         return db.Project.getByUserAndName(parentValue.id, args.name);
       }
+    },
+    components: {
+      type: new GraphQLList(ProjectComponentType),
+      resolve(parentValue, args) {
+        return db.ProjectComponent.getByUser(parentValue.id);
+      }
     }
   })
 });
