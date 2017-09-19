@@ -23,9 +23,10 @@ import './App.css';
 const propTypes = {
   theme: PropTypes.number
 };
+const defaultTheme = 0;
 
-const App = ({ theme }) => (
-  <MuiThemeProvider theme={themes.get(theme)}>
+const App = ({ currentUser }) => (
+  <MuiThemeProvider theme={themes.get(currentUser ? currentUser.theme : defaultTheme)}>
     <div className="App">
       <Nav />
       <switch>
@@ -49,5 +50,5 @@ const App = ({ theme }) => (
 App.propTypes = propTypes;
 
 export default withRouter(connect(state => ({
-  theme: state.session.currentUser.theme
+  currentUser: state.session.currentUser
 }))(App));

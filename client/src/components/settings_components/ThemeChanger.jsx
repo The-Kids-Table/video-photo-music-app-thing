@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Paper, Typography, Button } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import { MuiThemeProvider } from 'material-ui/styles';
 import themes from '../../themes';
+import { setUserTheme } from '../../actions/sessionActions.js';
 
 const styles = {
   menu: {
@@ -82,6 +84,7 @@ class ThemeChanger extends Component {
             raised
             onClick={() => {
               this.props.setTheme(this.state.selectedIndex);
+              this.props.changeTheme(this.state.selectedIndex);
             }}
             color='primary'>
             Save
@@ -92,4 +95,17 @@ class ThemeChanger extends Component {
   }
 }
 
-export default ThemeChanger;
+const mapStateToProps = state => ({
+  currentUser: state.session.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  changeTheme(theme) {
+    dispatch(setUserTheme(theme));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ThemeChanger);

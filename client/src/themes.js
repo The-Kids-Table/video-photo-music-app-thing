@@ -19,9 +19,16 @@ let themes = [
     }
   },
   {
-    name: 'Spiffy',
+    name: 'Royal',
     theme: {
       primary: purple,
+      error: red
+    }
+  },
+  {
+    name: 'Red',
+    theme: {
+      primary: red,
       error: red
     }
   }
