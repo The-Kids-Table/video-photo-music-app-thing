@@ -50,16 +50,26 @@ const ListingItem = ({ content }) => {
               display: 'relative',
               textAlign: 'left'
             }}>
-              <img 
-                src = {content.thumbnailUrl || content.avatarUrl}
-                style={{
-                  height: 75,
-                  width: 75
-                }}
-              />
+              {content.hasOwnProperty('thumbnailUrl') ?
+                <img 
+                  src = {content.thumbnailUrl || 'https://cdn2.lobster.media/assets/default_avatar-afa14913913cc117c73f1ac69496d74e.png'}
+                  style={{
+                    height: 75,
+                    width: 75
+                  }}
+                />
+                :
+                <img 
+                  src = {content.avatarUrl || 'https://cdn2.lobster.media/assets/default_avatar-afa14913913cc117c73f1ac69496d74e.png'}
+                  style={{
+                    height: 75,
+                    width: 75
+                  }}
+                />
+              }
             </Grid>
             <Grid item style={{textAlign: 'left', marginRight: 0, marginTop: 5}}>
-              <Typography type='subtitle'>{content.name}</Typography>
+              <Typography>{content.name}</Typography>
               <Typography>{content.tagline}</Typography>
               {!content.username &&
                 <Grid
