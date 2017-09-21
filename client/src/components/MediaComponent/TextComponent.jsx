@@ -23,7 +23,7 @@ const TextComponent = ({component, elevation, editingProject, likeCount, id, isF
           />
         </Grid>
         <Grid item>
-          <SocialButtons editingProject={editingProject} likeCount={likeCount} id={id} isFeatured={isFeatured} />
+          <SocialButtons editingProject={editingProject} likeCount={likeCount} id={component.id} isFeatured={isFeatured} />
         </Grid>
       </Grid>
       <div style={{padding: 10}}>

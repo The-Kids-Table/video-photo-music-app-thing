@@ -36,6 +36,7 @@ const CreateProject = ({ createProject, toggleEditUser, setUploadedFileUrl, uplo
         <form style={{textAlign: 'left', padding: 10}} onSubmit={e => {
           let form = e.target;
           e.preventDefault();
+          toggleEditUser();
           createProject({
             thumbnailUrl: uploadedFileUrl || '',
             name: form.name.value,
@@ -44,12 +45,14 @@ const CreateProject = ({ createProject, toggleEditUser, setUploadedFileUrl, uplo
           })
         }}>
           <TextField
+            required
             label="Name"
             id="name"
             placeholder="My Awesome Project!"
             style={{width: '100%'}}
           />
           <TextField
+            required
             label="Description"
             id="description"
             placeholder="This project is a super cool movie about..."
@@ -57,6 +60,7 @@ const CreateProject = ({ createProject, toggleEditUser, setUploadedFileUrl, uplo
             multiline
           />
           <TextField
+            required
             label="Tagline"
             id="tagline"
             placeholder="The best movie ever. 10/10"
@@ -99,6 +103,7 @@ const createProject = gql`
       tagline: $tagline
       description: $description
     ) {
+      id
       thumbnailUrl
       name
       description
