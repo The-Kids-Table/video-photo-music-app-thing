@@ -27,9 +27,6 @@ Like.create = ({userId, parentClass, parentId}) => {
     return Promise.reject('Like parent model not defined');
   }
   return User.getById(userId)
-    .then((user) => {
-      return parentClass.getById(parentId);
-    })
     .then(() => {
       return Like.model.findOne({
         where: {userId, parentType: parentClass.name, parentId}
@@ -40,6 +37,12 @@ Like.create = ({userId, parentClass, parentId}) => {
         return Promise.reject('You have already liked this item');
       }
       return Like.model.create({userId, parentType: parentClass.name, parentId});
+    })
+    .then(() => {
+      return parentClass.getById(parentId);
+    })
+    .then((parent) => {
+      return parent.update({likeCount: parent.likeCount + 1});
     })
     .then(() => {
       return true;
@@ -58,6 +61,12 @@ Like.delete = ({userId, parentClass, parentId}) => {
       return like.destroy();
     })
     .then(() => {
+      return parentClass.getById(parentId);
+    })
+    .then((parent) => {
+      return parent.update({likeCount: parent.likeCount - 1});
+    })
+    .then(() => {
       return true;
     });
 };
@@ -67,13 +76,8 @@ Like.getCountByParent = ({parentClass, parentId}) => {
     return Promise.reject('Like parent model not defined');
   }
   return parentClass.getById(parentId)
-    .then(() => {
-      return Like.model.findAll({
-        where: {parentType: parentClass.name, parentId}
-      });
-    })
-    .then((likes) => {
-      return likes.length;
+    .then((parent) => {
+      return parent.likeCount;
     });
 };
 

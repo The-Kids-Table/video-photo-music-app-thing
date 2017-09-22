@@ -48,6 +48,11 @@ const ProjectComponentModel = db.define('components', {
   },
   thumbnailUrl: {
     type: Sequelize.STRING(512)
+  },
+  likeCount: {
+    type: Sequelize.INTEGER,
+    notEmpty: true,
+    allowNull: false
   }
 });
 
@@ -82,7 +87,8 @@ ProjectComponent.create = ({userId, projectId, type, name, resourceUrl, descript
         type,
         isDownloadable: isDownloadable === true ? true : false,
         isFeatured: false,
-        thumbnailUrl
+        thumbnailUrl,
+        likeCount: 0
       });
     })
     .then((newComponent) => {
@@ -97,7 +103,9 @@ ProjectComponent.create = ({userId, projectId, type, name, resourceUrl, descript
     });
 };
 
-ProjectComponent.update = (userId, componentId, options) => {
+ProjectComponent.update = (userId, componentId, {name, resourceUrl, type, description, isDownloadable, thumbnailUrl}) => {
+  let options = {name, resourceUrl, type, description, isDownloadable, thumbnailUrl};
+  Object.keys(options).forEach(key => options[key] === undefined ? delete options[key] : null);
   return User.getById(userId)
     .then(() => {
       return ProjectComponent.getById(componentId);

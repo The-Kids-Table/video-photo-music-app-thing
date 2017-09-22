@@ -23,6 +23,11 @@ const CommentModel = db.define('comments', {
     type: Sequelize.STRING(512),
     notEmpty: true,
     allowNull: false
+  },
+  likeCount: {
+    type: Sequelize.INTEGER,
+    notEmpty: true,
+    allowNull: false
   }
 });
 
@@ -40,7 +45,7 @@ Comment.create = ({userId, parentClass, parentId, text}) => {
       return parentClass.getById(parentId);
     })
     .then(() => {
-      return Comment.model.create({userId, parentType: parentClass.name, parentId, text});
+      return Comment.model.create({userId, parentType: parentClass.name, parentId, text, likeCount: 0});
     });
 };
 

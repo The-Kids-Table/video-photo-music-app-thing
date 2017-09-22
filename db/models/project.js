@@ -25,6 +25,11 @@ const ProjectModel = db.define('projects', {
   },
   thumbnailUrl: {
     type: Sequelize.STRING(512)
+  },
+  likeCount: {
+    type: Sequelize.INTEGER,
+    notEmpty: true,
+    allowNull: false
   }
 });
 
@@ -41,13 +46,15 @@ Project.create = ({ownerId, name, description, tagline, thumbnailUrl}) => {
     })
     .catch((e) => {
       if (e === 'Project does not exist') {
-        return Project.model.create({ownerId, name, description, tagline, thumbnailUrl});
+        return Project.model.create({ownerId, name, description, tagline, thumbnailUrl, likeCount: 0});
       } else {
         return Promise.reject(e);
       }
     });
 };
-Project.update = ({userId, projectId, options}) => {
+Project.update = ({userId, projectId, options: {name, description, tagline, thumbnailUrl, ownerId}}) => {
+  let options = {name, description, tagline, thumbnailUrl, ownerId};
+  Object.keys(options).forEach(key => options[key] === undefined ? delete options[key] : null);
   return Project.getById(projectId)
     .then((project) => {
       return userId === project.ownerId ? project.update(options) : Promise.reject('Must be owner to edit project');
