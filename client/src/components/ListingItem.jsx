@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { gql, graphql } from 'react-apollo';
+import { compose } from 'react-apollo';
 
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
@@ -13,7 +15,7 @@ import Button from 'material-ui/Button';
 import MediaIcon from './MediaIcon.jsx';
 import SocialButtons from './SocialButtons.jsx';
 
-const ListingItem = ({ content }) => {
+const ListingItem = ({ content, likeProject, type }) => {
 
   let smallIcon = {
     height: 25,
@@ -24,6 +26,7 @@ const ListingItem = ({ content }) => {
   const randomCount = () => {
     return Math.floor(Math.random() * 1000);
   };
+
   return (
     <div>
       <Route render={({history}) => (
@@ -50,22 +53,31 @@ const ListingItem = ({ content }) => {
               display: 'relative',
               textAlign: 'left'
             }}>
-              {content.hasOwnProperty('thumbnailUrl') ?
+              {!content.hasOwnProperty('thumbnailUrl') &&
                 <img 
-                  src = {content.thumbnailUrl || 'https://cdn2.lobster.media/assets/default_avatar-afa14913913cc117c73f1ac69496d74e.png'}
+                  src={content.avatarUrl}
                   style={{
                     height: 75,
                     width: 75
                   }}
                 />
-                :
-                <img 
-                  src = {content.avatarUrl || 'https://cdn2.lobster.media/assets/default_avatar-afa14913913cc117c73f1ac69496d74e.png'}
+
+                ||
+
+                content.hasOwnProperty('thumbnailUrl') && thumbnailUrl &&
+                <img
+                  src={content.thumbnailUrl}
                   style={{
                     height: 75,
-                    width: 75
+                    width: 75,
+                    objectFit: 'cover'
                   }}
                 />
+
+                ||
+
+                !content.hasOwnProperty('thumbnailUrl') && type &&
+                <MediaIcon type={type} />
               }
             </Grid>
             <Grid item style={{textAlign: 'left', marginRight: 0, marginTop: 5}}>
@@ -95,7 +107,15 @@ const ListingItem = ({ content }) => {
                 </Grid>
               }
             </Grid>
-            <SocialButtons likeCount={content.likeCount || 0}/>
+            <SocialButtons
+              likeCount={content.likeCount || 0}
+              likeProject={likeProject}
+              unlikeProject={unlikeProject}
+              likeProjectComponent={likeProjectComponent}
+              unlikeProjectComponent={unlikeProjectComponent}
+              followUser={followUser}
+              unfollowUser={unfollowUser}
+            />
           </Grid>
         </ListItem> 
       )} />
@@ -104,4 +124,68 @@ const ListingItem = ({ content }) => {
   );
 };
 
-export default ListingItem;
+const likeProject = gql`
+  mutation likeProject($id: Int!) {
+    likeProject(projectId: $id)
+  }
+`;
+
+const unlikeProject = gql`
+  mutation unlikeProject($id: Int!) {
+    unlikeProject(projectId: $id)
+  }
+`;
+
+const likeProjectComponent = gql`
+  mutation likeProjectComponent($id: Int!) {
+    likeProjectComponent(projectComponentId: $id)
+  }
+`;
+
+const unlikeProjectComponent = gql`
+  mutation unlikeProjectComponent($id: Int!) {
+    unlikeProjectComponent(projectComponentId: $id)
+  }
+`;
+
+const followUser = gql`
+  mutation followUser($id: Int!) {
+    followUser(projectId: $id)
+  }
+`;
+
+const unfollowUser = gql`
+  mutation unfollowUser($id: Int!) {
+    unfollowUser(projectId: $id)
+  }
+`;
+
+export default compose(
+  graphql(likeProject, {props: ({ mutate }) => ({
+    likeProject: (id) => mutate({ variables: id})
+  })}),
+  graphql(unlikeProject, {props: ({ mutate }) => ({
+    unlikeProject: (id) => mutate({ variables: id})
+  })}),
+  graphql(likeProjectComponent, {props: ({ mutate }) => ({
+    likeProjectComponent: (id) => mutate({ variables: id})
+  })}),
+  graphql(unlikeProjectComponent, {props: ({ mutate }) => ({
+    unlikeProjectComponent: (id) => mutate({ variables: id})
+  })}),
+  graphql(followUser, {props: ({ mutate }) => ({
+    followUser: (id) => mutate({ variables: id})
+  })}),
+  graphql(unfollowUser, {props: ({ mutate }) => ({
+    unfollowUser: (id) => mutate({ variables: id})
+  })})
+)(ListingItem);
+
+// export default compose(
+//   graphql(likeProject, { name: 'likeProject' }),
+//   graphql(unlikeProject, { name: 'unLikeProject' }),
+//   graphql(likeProjectComponent, { name: 'likeProjectComponent' }),
+//   graphql(unlikeProjectComponent, { name: 'unlikeProjectComponent' }),
+//   graphql(followUser, { name: 'followUser' }),
+//   graphql(unfollowUser, { name: 'unfollowUser' })
+// )(ListingItem);
