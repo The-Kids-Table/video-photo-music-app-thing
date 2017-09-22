@@ -9,7 +9,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ArrowUpwardIcon from 'material-ui-icons/ArrowUpward';
 import Typography from 'material-ui/Typography';
 
-const SocialButtons = ({ likeCount, editingProject, editingUser, id, isFeatured, setFeaturedProjectComponent, deleteProjectComponent }) => (
+const SocialButtons = ({ likeCount, editingProject, editingUser, id, isFeatured, setFeaturedProjectComponent, deleteProjectComponent, likeProject }) => (
 
   (editingProject && isFeatured) &&
   <Grid item style={{marginLeft: 'auto'}}>
@@ -80,11 +80,11 @@ const SocialButtons = ({ likeCount, editingProject, editingUser, id, isFeatured,
       </Grid>
       <Grid item>
         <IconButton
-          onClick={() => console.log('Like ' + id)}
+          onClick={() => likeProject(id)}
           aria-label="Add to favorites"
           style={{zIndex: 1000, align: 'left'}}
         >
-          <FavoriteIcon />
+          <FavoriteIcon color='primary'/>
         </IconButton>
       </Grid>
       <Grid item style={{marginRight: 'auto'}}>
