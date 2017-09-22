@@ -18,7 +18,27 @@ import Switch from 'material-ui/Switch';
 import Divider from 'material-ui/Divider';
 import Collapse from 'material-ui/transitions/Collapse';
 
-const CreateComponent = ({toggleEditProject, toggleCreateComponentExpanded, createComponentExpanded}) => {
+import { setUploadedFileUrl } from '../actions/controlActions.js';
+
+const CreateComponent = ({createProjectComponent, toggleEditProject, toggleCreateComponentExpanded, createComponentExpanded, setUploadedFileUrl, uploadedFileUrl, projectId}) => {
+
+  let type = (uploadedFileUrl) => {
+    let parts = uploadedFileUrl.split('.');
+    let extension = parts[parts.length - 1];
+    if (extension === 'mp3' || extension === 'wav' || extension === 'wave' || extension === 'ogg' || extension === 'aac') {
+      return 'audio';
+    }
+    if (extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'bmp' || extension === 'gif' || extension === 'svg') {
+      return 'image';
+    }
+    if (extension === 'mp4') {
+      return 'video';
+    }
+    if (extension === 'txt') {
+      return 'text';
+    }
+    return 'unknown';
+  };
 
   return (
     <Paper>
@@ -33,16 +53,25 @@ const CreateComponent = ({toggleEditProject, toggleCreateComponentExpanded, crea
       <Collapse in={createComponentExpanded} transitionDuration="auto" unmountOnExit>
         <Divider style={{width: '90%', marginLeft: 'auto', marginRight: 'auto'}} />
         <Typography style={{margin: 5}}>Upload file:</Typography>
-        <Upload />
+        <Upload setUploadedFileUrl={setUploadedFileUrl} />
         <form style={{textAlign: 'left', padding: 10}} onSubmit={e => {
-          let from = e.target;
+          let form = e.target;
           e.preventDefault();
           toggleEditProject();
+          createProjectComponent({
+            name: form.name.value,
+            description: form.description.value || '',
+            projectId: projectId,
+            resourceUrl: uploadedFileUrl,
+            isDownloadable: false,
+            thumbnailUrl: '',
+            type: type(uploadedFileUrl)
+          })
         }}>
-          <TextField label="Name" placeholder="My Awesome Component!" style={{width: '100%'}} />
-          <TextField label="Description" placeholder="This component is part of what helps make the project so cool..." multiline style={{width: '100%'}} />
+          <TextField required id="name" label="Name" placeholder="My Awesome Component!" style={{width: '100%'}} />
+          <TextField id="description" label="Description" placeholder="This component is part of what helps make the project so cool..." multiline style={{width: '100%'}} />
           <Typography style={{marginTop: '16px'}}>Should it be downloadable?</Typography>
-          <Switch label="Download" />
+          <Switch id="download" label="Download" />
           <Button color='primary' raised type="submit" style={{marginBottom: 10, marginTop: 10, width: '100%'}}>
             Submit
           </Button>
@@ -61,4 +90,62 @@ const CreateComponent = ({toggleEditProject, toggleCreateComponentExpanded, crea
   );
 };
 
-export default CreateComponent;
+const createProjectComponent = gql`
+  mutation createProjectComponent(
+    $name: String!
+    $projectId: Int!
+    $type: String!
+    $resourceUrl: String!
+    $description: String!
+    $isDownloadable: Boolean!
+    $thumbnailUrl: String!
+  ) {
+    createProjectComponent(
+      name: $name
+      projectId: $projectId
+      type: $type
+      resourceUrl: $resourceUrl
+      description: $description
+      isDownloadable: $isDownloadable
+      thumbnailUrl: $thumbnailUrl
+    ) {
+      id
+      name
+      type
+      resourceUrl
+      description
+      isDownloadable
+      thumbnailUrl
+    }
+  }
+`;
+
+const CreateComponentWithData = graphql(createProjectComponent, {
+  props: ({ ownProps, mutate }) => ({
+    createProjectComponent(formdata) {
+      mutate({variables: {...formdata}, optimisticResponse: {
+        __typename: 'Mutation',
+        createProjectComponent: {
+          __typename: 'projectComponent',
+          ...formdata
+        }
+      }})
+    }
+  })
+})(CreateComponent)
+
+const mapStateToProps = state => ({
+  uploadedFileUrl: state.control.uploadedFileUrl
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUploadedFileUrl(fileUrl) {
+    console.log(dispatch)
+    dispatch(setUploadedFileUrl(fileUrl));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateComponentWithData);

@@ -59,7 +59,7 @@ const PhotoComponent = ({component, group, elevation, editingProject, likeCount,
             />
           </Grid>
           <Grid item xs={headerSize}>
-            <SocialButtons editingProject={editingProject} likeCount={likeCount} id={id} isFeatured={isFeatured} />
+            <SocialButtons editingProject={editingProject} likeCount={likeCount} id={component.id} isFeatured={isFeatured} />
           </Grid>
         </Grid>
       </Paper>

@@ -46,8 +46,15 @@ const Project = ({ currentUser, editingProject, toggleEditProject, toggleCreateC
     components,
     featuredComponent,
     owner,
-    contributors
+    contributors,
+    id
   } = data.user.project;
+
+  let orderedComponents = [];
+
+  for (var i = components.length - 1; i > 0; i--) {
+    orderedComponents.push(components[i]);
+  }
 
   const groupingPreCheck = (componentArray) => {
     const MAX_PHOTO_GRID = 3;
@@ -91,8 +98,8 @@ const Project = ({ currentUser, editingProject, toggleEditProject, toggleCreateC
 
   let groups;
 
-  if (components.length > 0) {
-    groups = groupingPreCheck(components);
+  if (orderedComponents.length > 0) {
+    groups = groupingPreCheck(orderedComponents);
   }
 
   return (
@@ -127,17 +134,17 @@ const Project = ({ currentUser, editingProject, toggleEditProject, toggleCreateC
                 }}>
                   {
                     currentUser && (contributors.includes(currentUser)) &&
-                    <CreateComponent toggleEditProject={() => console.log('click')} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} />
+                    <CreateComponent toggleEditProject={() => console.log('click')} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} projectId={id} />
                   }
                   {
                     editingProject &&
                     <Grid item xs={12}>
-                      <CreateComponent toggleEditProject={toggleEditProject} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} />
+                      <CreateComponent toggleEditProject={toggleEditProject} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} projectId={id} />
                     </Grid>
                   }
                   {
-                    (components.length > 0) &&
-                    components.map((content, key) => ( 
+                    (orderedComponents.length > 0) &&
+                    orderedComponents.map((content, key) => ( 
                       <MediaComponent 
                         content={content} 
                         key={key} 
@@ -152,12 +159,12 @@ const Project = ({ currentUser, editingProject, toggleEditProject, toggleCreateC
 
                     ||
 
-                    components.length === 0 && !editingProject &&
+                    orderedComponents.length === 0 && !editingProject && contributors.includes(currentUser) &&
                     <div style={{width: '100%'}}>
                       <Paper style={{width: '100%', marginBottom: 15}}>
                         <Typography type='title' style={{padding: 10}}>This project doesn't have any components yet. You should add one!</Typography>
                       </Paper>
-                      <CreateComponent toggleEditProject={() => console.log('no no')} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} />
+                      <CreateComponent toggleEditProject={toggleCreateComponentExpanded} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} projectId={id} />
                     </div>
                   }
                 </Grid>
@@ -227,17 +234,17 @@ const Project = ({ currentUser, editingProject, toggleEditProject, toggleCreateC
                 }}>
                   {
                     currentUser && (contributors.includes(currentUser)) &&
-                    <CreateComponent toggleEditProject={() => console.log('click')} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} />
+                    <CreateComponent toggleEditProject={() => console.log('click')} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} projectId={id} />
                   }
                   {
                     editingProject &&
                     <Grid item xs={12}>
-                      <CreateComponent toggleEditProject={toggleEditProject} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} />
+                      <CreateComponent toggleEditProject={toggleEditProject} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} projectId={id} />
                     </Grid>
                   }
                   {
-                    (components.length > 0) &&
-                    components.map((content, key) => ( 
+                    (orderedComponents.length > 0) &&
+                    orderedComponents.map((content, key) => ( 
                       <MediaComponent 
                         content={content} 
                         key={key} 
@@ -252,12 +259,12 @@ const Project = ({ currentUser, editingProject, toggleEditProject, toggleCreateC
 
                     ||
 
-                    components.length === 0 && !editingProject &&
+                    orderedComponents.length === 0 && !editingProject &&
                     <div style={{width: '100%'}}>
                       <Paper style={{width: '100%', marginBottom: 15}}>
                         <Typography type='title' style={{padding: 10}}>This project doesn't have any components yet. You should add one!</Typography>
                       </Paper>
-                      <CreateComponent toggleEditProject={() => console.log('no no')} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} />
+                      <CreateComponent toggleEditProject={() => console.log('no no')} toggleCreateComponentExpanded={toggleCreateComponentExpanded} createComponentExpanded={createComponentExpanded} projectId={id} />
                     </div>
                   }
                 </Grid>

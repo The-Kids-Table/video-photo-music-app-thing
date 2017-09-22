@@ -35,7 +35,7 @@ const VideoComponent = ({component, group, elevation, editingProject, likeCount,
             />
           </Grid>
           <Grid item xs={headerSize}>
-            <SocialButtons editingProject={editingProject} likeCount={likeCount} id={id} isFeatured={isFeatured} />
+            <SocialButtons editingProject={editingProject} likeCount={likeCount} id={component.id} isFeatured={isFeatured} />
           </Grid>
         </Grid>
         <Typography type="body1" component="p" style={{textAlign: 'left', padding: '15px'}}>
