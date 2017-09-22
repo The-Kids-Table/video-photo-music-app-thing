@@ -9,19 +9,20 @@ import Divider from 'material-ui/Divider';
 import List, { ListItem, ListItemText, ListItemAvatar } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import AddIcon from 'material-ui-icons/Add';
+import { withTheme } from 'material-ui/styles';
 
 const propTypes = {
   owner: PropTypes.object.isRequired,
   contributors: PropTypes.array
 };
  
-const ProjectContributors = ({ owner, contributors, editingProject }) => (
+const ProjectContributors = ({ owner, contributors, editingProject, theme }) => (
   
   editingProject &&
   <Card>
     <CardHeader
-      style={{backgroundColor: '#3F51B5', fontColor: 'white'}}
-      title={<Typography style={{color: 'white'}}>Contributors</Typography>}
+      style={{backgroundColor: theme.palette.primary[500], fontColor: theme.palette.text.primary}}
+      title={<Typography>Contributors</Typography>}
     />
     <CardHeader
       avatar={
@@ -67,8 +68,8 @@ const ProjectContributors = ({ owner, contributors, editingProject }) => (
   !editingProject &&
   <Card>
     <CardHeader
-      style={{backgroundColor: '#3F51B5', fontColor: 'white'}}
-      title={<Typography style={{color: 'white'}}>Contributors</Typography>}
+      style={{backgroundColor: theme.palette.primary[500], fontColor: theme.palette.text.primary}}
+      title={<Typography>Contributors</Typography>}
     />
     <CardHeader
       avatar={
@@ -81,6 +82,9 @@ const ProjectContributors = ({ owner, contributors, editingProject }) => (
     <Divider />
 
     <List dense>
+      {
+        console.log(contributors)
+      }
       {contributors.map((contributor, key) => {
         var key = key++ || 0;
         return (
@@ -106,4 +110,4 @@ const ProjectContributors = ({ owner, contributors, editingProject }) => (
 
 ProjectContributors.propTypes = propTypes;
  
-export default ProjectContributors; 
+export default withTheme(ProjectContributors); 
