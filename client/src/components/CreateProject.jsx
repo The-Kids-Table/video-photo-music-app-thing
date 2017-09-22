@@ -21,7 +21,7 @@ const CreateProject = ({ createProject, toggleEditUser, setUploadedFileUrl, uplo
     margin: 0,
     width: '100%'
   }}>
-    <Grid md/>
+    <Grid item md/>
     <Grid item xs={12} sm={12} md={8} lg={6}>
       <Paper>
         <Typography type='title' style={{padding: 10}}> Create Project </Typography>
@@ -88,7 +88,7 @@ const CreateProject = ({ createProject, toggleEditUser, setUploadedFileUrl, uplo
         </form>
       </Paper>
     </Grid>
-    <Grid md />
+    <Grid item md />
   </Grid>
 );
 
