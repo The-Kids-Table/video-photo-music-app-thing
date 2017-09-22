@@ -64,7 +64,7 @@ const ListingItem = ({ content, likeProject, type }) => {
 
                 ||
 
-                content.hasOwnProperty('thumbnailUrl') && thumbnailUrl &&
+                content.hasOwnProperty('thumbnailUrl') && content.thumbnailUrl &&
                 <img
                   src={content.thumbnailUrl}
                   style={{
