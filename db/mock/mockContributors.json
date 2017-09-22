@@ -997,4 +997,8 @@
 {"contributorId":997,"projectId":100,"ownerId":10,"role":"Nuclear Power Engineer"},
 {"contributorId":998,"projectId":100,"ownerId":10,"role":"Occupational Therapist"},
 {"contributorId":999,"projectId":100,"ownerId":10,"role":"Account Coordinator"},
-{"contributorId":1000,"projectId":100,"ownerId":10,"role":"Editor"}]
+{"contributorId":1000,"projectId":100,"ownerId":10,"role":"Editor"},
+{"contributorId":1,"projectId":1001,"ownerId":1001,"role":"Editor"},
+{"contributorId":27,"projectId":1001,"ownerId":1001,"role":"Set Design"},
+{"contributorId":30,"projectId":1001,"ownerId":1001,"role":"Costume Design"},
+{"contributorId":14,"projectId":1001,"ownerId":1001,"role":"Team Member"}]
