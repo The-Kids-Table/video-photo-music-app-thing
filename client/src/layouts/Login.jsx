@@ -6,21 +6,19 @@ import { NavLink } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
+import { connect } from 'react-redux';
+import { alert } from '../actions/controlActions';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: '',
-      errorMessage: '',
-      showError: false
+      password: ''
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.sendLoginRequest = this.sendLoginRequest.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.showError = this.showError.bind(this);
-    this.hideError = this.hideError.bind(this);
   }
 
   handleInputChange (property, e) {
@@ -46,8 +44,7 @@ class Login extends React.Component {
         return res;
       })
       .catch((err) => {
-        this.setState({errorMessage: 'Incorrect username or password'});
-        this.showError();
+        this.props.alert('Incorrect username or password');
       });
     } else {
       let missingVals = [];
@@ -67,24 +64,8 @@ class Login extends React.Component {
           errorString += ', ' + missingVals[i];
         }
       }
-      this.setState({errorMessage: errorString});
-      this.showError();
+      this.props.alert(errorString);
     }
-  }
-
-  showError () {
-    this.setState({showError: true});
-  }
-  hideError () {
-    this.setState({showError: false});
-  }
-
-  googleOAuthRedirect () {
-    window.location.href = '/auth/google';
-  }
-
-  facebookOAuthRedirect () {
-    window.location.href = '/auth/facebook';
   }
 
   render() {
@@ -92,7 +73,7 @@ class Login extends React.Component {
     return (
       <div>
         <h1>Login</h1>
-        <TextField onKeyPress={this.handleKeyPress} label='Username' type='text' value={this.state.email} onChange={this.handleInputChange.bind(this, 'username')} /><br/>
+        <TextField onKeyPress={this.handleKeyPress} label='Username' type='text' value={this.state.username} onChange={this.handleInputChange.bind(this, 'username')} /><br/>
         <TextField onKeyPress={this.handleKeyPress} label='Password' type='password' value={this.state.password} onChange={this.handleInputChange.bind(this, 'password')} /><br/>
         <Button raised className={'btn'} onClick={this.sendLoginRequest}>Login</Button>
         <NavLink
@@ -101,12 +82,16 @@ class Login extends React.Component {
         >
           <Button className={'btn'}>Sign Up</Button><br/>
         </NavLink>
-        <GoogleButton className={'btn'} onClick={this.googleOAuthRedirect} /><br/>
-        <FacebookButton className={'btn'} onClick={this.facebookOAuthRedirect} />
-        <Snackbar open={this.state.showError} message={this.state.errorMessage} autoHideDuration={4000} onRequestClose={this.hideError} />
+        <GoogleButton className={'btn'} onClick={() => {window.location.href = '/auth/google'}} />
       </div>
     ) 
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => ({
+  alert(msg) {
+    dispatch(alert(msg));
+  }
+});
+
+export default connect(null, mapDispatchToProps)(Login);
