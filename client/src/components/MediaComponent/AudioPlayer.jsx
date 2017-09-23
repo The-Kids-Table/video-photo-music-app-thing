@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { withTheme } from 'material-ui/styles';
+
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import './video.css';
 
 class AudioPlayer extends Component {
+
+
   componentDidMount() {
     // instantiate video.js
     this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
@@ -22,13 +26,15 @@ class AudioPlayer extends Component {
     }
   }
 
+
   // wrap the player in a div with a `data-vjs-player` attribute
   // so videojs won't create additional wrapper in the DOM
   // see https://github.com/videojs/video.js/pull/3856
   render() {
+    const { theme } = this.props;
     return (
       <div data-vjs-player>
-        <audio ref={ node => this.videoNode = node } className="video-js audio"></audio>
+        <audio ref={ node => this.videoNode = node } className="video-js audio" style={{backgroundColor: theme.palette.primary[500]}}></audio>
       </div>
     );
   }
@@ -41,4 +47,4 @@ AudioPlayer.propTypes = {
   aspectRatio: PropTypes.string.isRequired
 };
 
-export default AudioPlayer;
+export default withTheme(AudioPlayer);

@@ -52,6 +52,8 @@ const Project = ({ currentUser, editingProject, toggleEditProject, toggleCreateC
 
   let orderedComponents = [];
 
+  console.log(contributors);
+
   for (var i = components.length - 1; i > 0; i--) {
     orderedComponents.push(components[i]);
   }
