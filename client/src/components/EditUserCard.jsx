@@ -55,8 +55,8 @@ const EditUserCard = ({ user, loading, error, toggleEditUser, submitChanges, upl
         username: form.username.value || user.username,
         email: form.email.value || user.email,
         profession: form.profession.value || user.profession,
-        avatarUrl: uploadedFileUrl || user.avatarUrl || null,
-        description: form.description.value || user.description || null
+        avatarUrl: uploadedFileUrl || user.avatarUrl || 'https://cdn2.lobster.media/assets/default_avatar-afa14913913cc117c73f1ac69496d74e.png',
+        description: form.description.value || user.description || ''
       });
     }}>
       <TextField
@@ -145,6 +145,7 @@ const EditUserCardWithData = graphql(editUser, {
         __typename: 'Mutation',
         editUser: {
           __typename: 'user',
+          id: ownProps.user.id,
           ...formdata
         }
       }});
